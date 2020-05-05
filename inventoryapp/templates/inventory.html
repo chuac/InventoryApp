@@ -1,0 +1,32 @@
+{% extends 'layout.html' %}
+
+{% block body %}
+
+<br>
+<div>
+  <h1 style="display:inline">All inventory items</h1>
+  {% if True %}
+  <a style="display:inline" class="btn btn-success float-right" href='{{ url_for('inventory.new_inventory') }}'>+ New Item</a>
+  {% endif %}
+</div>
+
+<hr>
+
+{% for item in inventory %}
+    
+  <article class="media content-section">
+    <img class="rounded-circle article-img" src="{{ url_for('static', filename='inventory_pics/' + item.image_file) }}"> <!-- item's pic  -->
+    <div class="media-body">
+      <div class="article-metadata">
+        <a class="mr-2" href="#">Link to category?</a> 
+        <small class="text-muted">Last updated {{ item.last_updated.strftime('%Y-%m-%d') }}. maybe do a "30mins ago" style instead</small> <!--  last time updated, trimmed to Year, month, date -->
+      </div>
+      <h2><a class="article-title" href="#">{{ item.name }} - {{ item.size }}</a></h2> <!-- the article/post title is now a link to a page just for that post (allows the author to edit/delete on that page)  -->
+      <h3>{{ item.count }} remaining</h3>
+      <p class="article-content">{{ item.description }}</p>
+    </div>
+  </article>
+
+{% endfor %}
+
+{% endblock body%}

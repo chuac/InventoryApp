@@ -1,0 +1,14 @@
+Inventory(name='Milk', size='2L', count='2')
+
+
+
+
+
+
+have stocktake button, to update a group of items "Stocktake All?" or just stocktake one category
+
+brings you to essentially an edit page, pre-populated stock levels from DB, just able to edit them and submit
+
+
+
+Toyota lexus rx350,2006 model,149kms,auto,one lady owner since new,full log book services,2 keys sunroof,full electric,luxury,factory tinted,4 new bridgestone tyres,$10800

@@ -1,0 +1,18 @@
+{% extends 'layout.html' %}
+
+{% block body %}
+
+<main role="main">
+    <div class="jumbotron">
+      <div class="col-sm-8 mx-auto">
+        <h1>Welcome</h1>
+        <p>This is the Inventory App for Acme Company</p>
+        <p>Login required to continue</p>
+        <p>
+          <a class="btn btn-primary" href="{{ url_for('inventory.inventory') }}" role="button">Go to Inventory &raquo;</a>
+        </p>
+      </div>
+    </div>
+</main>
+
+{% endblock body%}
