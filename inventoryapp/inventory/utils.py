@@ -1,5 +1,7 @@
 import os
 import secrets
+from datetime import datetime
+from decimal import Decimal
 from PIL import Image
 from flask import url_for, current_app
 
@@ -19,3 +21,39 @@ def save_picture(form_picture): # new pic we received from the form
     img.save(picture_path)
 
     return new_pic_name
+
+
+def calc_time_delta(last_updated_time):
+    time_now = datetime.utcnow()
+
+    difference = (time_now - last_updated_time)
+    difference_in_s = int(difference.total_seconds()) # timedelta functionality to get seconds. cast from float to int to drop trailing decimal zero
+
+    if difference_in_s < 60:
+        return "less than a minute ago"
+    elif 60 <= difference_in_s < 3600:
+        minutes = divmod(difference_in_s, 60)[0] # 60 seconds in a minute
+        if minutes == 1:
+            return f"{minutes} minute ago" # for singular vs plural minute(s)
+        else:
+            return f"{minutes} minutes ago"
+    elif 3600 <= difference_in_s < 86400:
+        hours = divmod(difference_in_s, 3600)[0] # 3600 seconds in an hour
+        if hours == 1:
+            return f"{hours} hour ago"
+        else:
+            return f"{hours} hours ago"
+    else:
+        days = divmod(difference_in_s, 86400)[0] # 86400 seconds in a day
+        if days == 1:
+            return f"{days} day ago"
+        else:
+            return f"{days} days ago"
+
+
+"""
+Remove the exponent and trailing zeroes, losing significance, but keeping the value unchanged
+https://docs.python.org/3/library/decimal.html#decimal-faq
+"""
+def remove_exponent(d):
+    return d.quantize(Decimal(1)) if d == d.to_integral() else d.normalize()
