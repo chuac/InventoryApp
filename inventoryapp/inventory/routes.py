@@ -11,6 +11,7 @@ inven = Blueprint('inventory', __name__) # pass in the name of our blueprint too
 
 
 @inven.route('/inventory')
+@login_required
 def inventory():
     all_inventory = Inventory.query.order_by(Inventory.last_updated).all()
     
@@ -18,11 +19,13 @@ def inventory():
 
 
 @inven.route('/inventory/<int:id>') # view a singular item
+@login_required
 def item(id):
     item = Inventory.query.get_or_404(id)
     return render_template('item.html', title = item.name, item = item)
 
 @inven.route('/inventory/new', methods=['GET', 'POST'])
+@login_required
 def new_item():
     form = InventoryForm()
     if form.validate_on_submit():
@@ -36,6 +39,7 @@ def new_item():
 
 
 @inven.route('/inventory/<int:id>/update', methods=['GET', 'POST'])
+@login_required
 def update_item(id):
     form = UpdateInventoryItemForm()
     item = Inventory.query.get_or_404(id)
