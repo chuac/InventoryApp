@@ -21,8 +21,8 @@
         <a class="mr-2" href="#">Link to category?</a> 
         <small class="text-muted">Last updated {{ calc_time_delta(item.last_updated) }}</small> <!--  last time updated, trimmed to Year, month, date -->
       </div>
-      <h2><a class="article-title" href="{{ url_for('inventory.update_item', id = item.id)}}">{{ item.name }} - {{ item.size }}</a></h2> <!-- the article/post title is now a link to a page just for that post (allows the author to edit/delete on that page)  -->
-      <h3>{{ remove_exponent(item.count) }} remaining</h3>
+      <h2><a class="" href="{{ url_for('inventory.update_item', id = item.id)}}">{{ item.name }} - {{ item.size }}</a></h2> <!-- the article/post title is now a link to a page just for that post (allows the author to edit/delete on that page)  -->
+      <h4>{{ remove_exponent(item.count) }} remaining</h3>
       <p class="article-content">{{ item.description }}</p>
     </div>
   </article>

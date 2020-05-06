@@ -13,7 +13,7 @@ inven = Blueprint('inventory', __name__) # pass in the name of our blueprint too
 @inven.route('/inventory')
 @login_required
 def inventory():
-    all_inventory = Inventory.query.order_by(Inventory.last_updated).all()
+    all_inventory = Inventory.query.order_by(Inventory.last_updated.desc()).all() # the desc() puts the most recently updated items first
     
     return render_template('inventory.html', inventory = all_inventory, calc_time_delta = calc_time_delta, remove_exponent = remove_exponent)
 
@@ -54,4 +54,13 @@ def update_item(id):
         form.size.data = item.size
         form.count.data = item.count # can't remove exponent here because the Form is set to a DecimalField anyways
         form.description.data = item.description
-    return render_template('update.html', title = 'Update item count', form = form, remove_exponent = remove_exponent)
+    return render_template('update.html', title = 'Update item count', form = form, remove_exponent = remove_exponent, id = id)
+
+
+@inven.route('/inventory/<int:id>/delete', methods=['POST'])
+@login_required
+def delete_item(id):
+    item = Inventory.query.get_or_404(id)
+    db.session.delete(item)
+    db.session.commit()
+    return redirect(url_for('inventory.inventory'))
