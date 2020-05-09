@@ -1,0 +1,24 @@
+{% extends 'layout.html' %}
+
+{% block body %}
+
+<div>
+    <legend class="border-bottom mb-4">Purchasing List</legend> <!-- border at bottom with margin 4-->
+    {% for list_id in list_checked %}
+        {% for item in inventory %}
+            {% if list_id == item.id %}
+                {{ item.name }}
+                Current level: {{ remove_exponent(item.count) }}
+                <br>
+            {% endif %}
+        {% endfor %}
+        
+    {% endfor %}
+
+</div>
+
+<br>
+<a href="{{url_for('inventory.inventory')}}">Go Back</a>
+<hr>
+
+{% endblock body%}

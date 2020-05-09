@@ -1,7 +1,8 @@
 from datetime import datetime
 from decimal import Decimal
-from flask import Blueprint, render_template, redirect, url_for, request, flash
+from flask import Blueprint, render_template, redirect, url_for, request, flash, session
 from flask_login import current_user, login_required
+from sqlalchemy import func
 from inventoryapp import db
 from inventoryapp.models import Inventory
 from inventoryapp.inventory.forms import InventoryForm, UpdateInventoryItemForm
@@ -23,6 +24,7 @@ def inventory():
 def item(id):
     item = Inventory.query.get_or_404(id)
     return render_template('item.html', title = item.name, item = item)
+
 
 @inven.route('/inventory/new', methods=['GET', 'POST'])
 @login_required
@@ -63,4 +65,41 @@ def delete_item(id):
     item = Inventory.query.get_or_404(id)
     db.session.delete(item)
     db.session.commit()
+    flash("Item deleted successfully", 'success')
     return redirect(url_for('inventory.inventory'))
+
+
+"""
+Incomplete functionality
+"""
+@inven.route('/inventory/stocktake', methods=['GET', 'POST'])
+@login_required
+def stocktake():
+    all_inventory = Inventory.query.order_by(Inventory.last_updated.desc()).all()
+    form = UpdateInventoryItemForm()
+    return render_template('stocktake.html', inventory = all_inventory, calc_time_delta = calc_time_delta, remove_exponent = remove_exponent)
+
+
+@inven.route('/inventory/purchasing', methods=['GET', 'POST'])
+@login_required
+def purchasing():
+    # get will give them a checklist for which items, post returns a shopping list
+    all_inventory = Inventory.query.order_by(Inventory.last_updated.desc()).all()
+    count = len(all_inventory)
+    
+
+    if request.method == 'POST':
+        list_checked = []
+        i = 1
+        while i < count + 1:
+            x = request.form.get(str(i), "off")
+            if x == 'on':
+                list_checked.append(i)
+            i = i + 1
+        if len(list_checked) != 0: # not an empty list. the user did select at least one checkbox
+            return render_template('purchasing_list.html', inventory = all_inventory, list_checked = list_checked, remove_exponent = remove_exponent)
+        
+        return redirect(url_for('inventory.inventory'))
+
+    return render_template('purchasing.html', inventory = all_inventory, count = count)
+

@@ -1,7 +1,17 @@
 Inventory(name='Milk', size='2L', count='2')
 
+2 days, 5 hours, 33min
+172800 + 18000 + 1980 = 192780
 
 
+86400 in a day
+3600 in an hour
+
+Features:
+1) Stocktake feature
+2) Output a "shopping list" based on what user selected or if count levels are below what thresholds set (target count). Output shopping list maybe sorted by categories too? 
+3) Upload images for items
+4) Pagination
 
 
 

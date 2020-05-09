@@ -5,6 +5,7 @@
 <br>
 <div>
   <h1 style="display:inline">All inventory items</h1>
+  <a class="" href="{{ url_for('inventory.purchasing')}}">Purchasing</a>
   {% if True %}
   <a style="display:inline" class="btn btn-success float-right" href='{{ url_for('inventory.new_item') }}'>+ New Item</a>
   {% endif %}

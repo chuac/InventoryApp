@@ -1,0 +1,33 @@
+{% extends 'layout.html' %}
+
+{% block body %}
+
+<div>
+    <form action="" method="POST" id="form">
+        {% set i = namespace(value = 1) %} <!-- how to increment loop variable in jinja https://stackoverflow.com/a/49699589/3024923 -->
+        {% for item in inventory %}
+            <div class="col-sm-2">{{ item.name }}</div>
+            <div class="col-sm-10">
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="gridCheck{{ i.value }}" name="{{ item.id }}"> <!-- why not put item's db id in these??-->
+                    <label class="form-check-label" for="gridCheck{{ i.value }}">
+                        Select to add to shopping list
+                    </label>
+                </div>
+            </div>
+            {% set i.value = i.value + 1 %}
+        {% endfor %}
+        <div class="form-group row">
+            <div class="col-sm-10">
+            <button type="submit" class="btn btn-primary">Submit</button>
+            </div>
+        </div>
+    </form>
+
+</div>
+
+<br>
+<a href="{{url_for('inventory.inventory')}}">Go Back</a>
+<hr>
+
+{% endblock body%}
