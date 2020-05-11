@@ -4,21 +4,55 @@
 
 <div>
     <legend class="border-bottom mb-4">Purchasing List</legend> <!-- border at bottom with margin 4-->
-    {% for list_id in list_checked %}
-        {% for item in inventory %}
-            {% if list_id == item.id %}
-                {{ item.name }}
-                Current level: {{ remove_exponent(item.count) }}
-                <br>
-            {% endif %}
+    <ul class="list-group">
+        {% for list_id in list_checked %}
+            {% for item in inventory %}
+                {% if list_id == item.id %}
+                    
+                    <li class="list-group-item" onclick="list_click({{ list_id }})" id="list_item{{list_id}}">{{ item.name }}. Current level: {{ remove_exponent(item.count) }}</li>
+                    
+                    <br>
+                {% endif %}
+            {% endfor %}
         {% endfor %}
-        
-    {% endfor %}
-
+    </ul>
 </div>
 
 <br>
 <a href="{{url_for('inventory.inventory')}}">Go Back</a>
 <hr>
+
+<script>
+    //var flag = true;
+    function list_click(x) {
+        
+        document.getElementById("list_item" + x).classList.toggle("clicked")
+        
+
+        /**
+        if (element.classList.contains("disabled")) {
+            document.getElementById("list_item" + x).setAttribute("class", "list-group-item");
+        }
+        else {
+            element.classList.add("disabled")
+        }
+        **/
+
+        /**
+        if (flag) {
+            document.getElementById("list_item" + x).classList.add("disabled")
+            flag = false;
+        }
+        else {
+            document.getElementById("list_item" + x).classList.remove("disabled");
+            flag = true;
+        }
+        **/
+
+        //flag ? element.classList.add("disabled") : element.classList.remove("disabled");
+        //flag = !flag;
+        //document.getElementById("list_item" + x).setAttribute("class", "list-group-item disabled");
+    };
+  </script>
 
 {% endblock body%}
